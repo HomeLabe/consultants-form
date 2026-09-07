@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejoindre le réseau de consultants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDF0F2;
+    --card:#FFFFFF;
+    --ink:#101B24;
+    --muted:#5C6B77;
+    --line:#DCE1E5;
+    --line-strong:#C3CBD1;
+
+    /* code couleur fibre optique, 1 à 12 */
+    --f1:#C8352C; --f2:#1D5FBF; --f3:#1E8A4C; --f4:#C29100;
+    --f5:#7A4BAF; --f6:#FFFFFF; --f7:#E0741B; --f8:#8A939A;
+    --f9:#7A5230; --f10:#0E9C9C; --f11:#D6538F; --f12:#1C2126;
+
+    --sec:var(--f2);
+    --radius:7px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16px;
+    line-height:1.55;
+  }
+
+  .wrap{max-width:680px;margin:0 auto;padding:0 18px 72px}
+
+  /* ---------- barre de progression épissure ---------- */
+  .tray{
+    position:sticky;top:0;z-index:20;
+    background:var(--paper);
+    padding:14px 18px 12px;
+    border-bottom:1px solid var(--line);
+  }
+  .tray-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:14px}
+  .strip{display:flex;gap:3px;flex:1;height:9px}
+  .seg{
+    flex:1;border-radius:2px;
+    background:#D9DEE2;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
+    transition:background .45s ease;
+  }
+  @media (prefers-reduced-motion:reduce){.seg{transition:none}}
+  .seg.on{box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+  .seg:nth-child(1).on{background:var(--f1)}
+  .seg:nth-child(2).on{background:var(--f2)}
+  .seg:nth-child(3).on{background:var(--f3)}
+  .seg:nth-child(4).on{background:var(--f4)}
+  .seg:nth-child(5).on{background:var(--f5)}
+  .seg:nth-child(6).on{background:var(--f6)}
+  .seg:nth-child(7).on{background:var(--f7)}
+  .seg:nth-child(8).on{background:var(--f8)}
+  .seg:nth-child(9).on{background:var(--f9)}
+  .seg:nth-child(10).on{background:var(--f10)}
+  .seg:nth-child(11).on{background:var(--f11)}
+  .seg:nth-child(12).on{background:var(--f12)}
+  .tally{
+    font-size:13px;color:var(--muted);
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+
+  /* ---------- accroche ---------- */
+  header{padding:44px 0 30px}
+  h1{
+    font-family:Archivo,sans-serif;
+    font-weight:700;
+    font-size:clamp(30px,6.4vw,44px);
+    line-height:1.06;
+    letter-spacing:-.022em;
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .lede{margin:0 0 14px;font-size:17px;max-width:56ch;color:#2A3843}
+  .meta{margin:0;font-size:14px;color:var(--muted)}
+
+  /* ---------- panneau ---------- */
+  .panel{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  section{padding:26px 24px 30px;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  @media (max-width:520px){section{padding:22px 16px 26px}}
+
+  .head{display:flex;align-items:baseline;gap:11px;margin-bottom:20px}
+  .tick{width:7px;height:22px;border-radius:2px;background:var(--sec);flex:none;transform:translateY(3px)}
+  h2{
+    font-family:Archivo,sans-serif;font-weight:600;
+    font-size:20px;letter-spacing:-.012em;margin:0;
+  }
+  .head p{margin:2px 0 0;font-size:14px;color:var(--muted)}
+
+  .field{margin-bottom:19px}
+  .field:last-child{margin-bottom:0}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:520px){.row{grid-template-columns:1fr}}
+
+  label.q{display:block;font-size:14.5px;font-weight:500;margin-bottom:7px}
+  .opt{color:var(--muted);font-weight:400}
+  .hint{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:2px}
+
+  input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{
+    width:100%;
+    font:inherit;font-size:15.5px;color:var(--ink);
+    background:#FBFCFC;
+    border:1px solid var(--line-strong);
+    border-radius:5px;
+    padding:11px 12px;
+    transition:border-color .12s,box-shadow .12s,background .12s;
+  }
+  textarea{resize:vertical;min-height:88px;line-height:1.5}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235C6B77' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+  input:focus,select:focus,textarea:focus{
+    outline:none;background:#fff;
+    border-color:var(--sec);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--sec) 22%,transparent);
+  }
+  input::placeholder,textarea::placeholder{color:#9AA6AE}
+
+  /* ---------- pastilles de choix ---------- */
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chips input{position:absolute;opacity:0;width:0;height:0}
+  .chips label{
+    display:inline-block;
+    padding:8px 13px;
+    font-size:14.5px;
+    border:1px solid var(--line-strong);
+    border-radius:100px;
+    background:#FBFCFC;
+    cursor:pointer;
+    user-select:none;
+    transition:background .12s,border-color .12s,color .12s;
+  }
+  .chips label:hover{border-color:var(--sec)}
+  .chips input:checked + label{
+    background:var(--sec);border-color:var(--sec);color:#fff;font-weight:500;
+  }
+  .chips input:focus-visible + label{box-shadow:0 0 0 3px color-mix(in srgb,var(--sec) 30%,transparent)}
+
+  /* ---------- consentement ---------- */
+  .consent{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:#2A3843;line-height:1.45}
+  .consent input{margin:2px 0 0;width:17px;height:17px;flex:none;accent-color:var(--sec)}
+
+  /* ---------- envoi ---------- */
+  .send{padding:24px;border-top:1px solid var(--line);background:#F8FAFB;border-radius:0 0 var(--radius) var(--radius)}
+  button.go{
+    width:100%;font-family:Archivo,sans-serif;font-size:16.5px;font-weight:600;
+    color:#fff;background:var(--ink);
+    border:0;border-radius:5px;padding:15px;cursor:pointer;
+    transition:background .14s;
+  }
+  button.go:hover{background:#1F3241}
+  button.go:focus-visible{outline:3px solid #1D5FBF;outline-offset:2px}
+  button.go[disabled]{background:#A6B0B8;cursor:not-allowed}
+  .send p{margin:11px 0 0;font-size:13px;color:var(--muted);text-align:center}
+
+  .err{
+    display:none;margin:0 0 16px;padding:11px 13px;
+    border-left:3px solid var(--f1);background:#FDF2F1;
+    font-size:14px;border-radius:0 4px 4px 0;
+  }
+  .err.show{display:block}
+  .invalid{border-color:var(--f1) !important;background:#FEF8F7}
+
+  footer{margin-top:22px;font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* ---------- confirmation ---------- */
+  .done{display:none;padding:52px 26px;text-align:left}
+  .done.show{display:block}
+  .done h2{font-size:26px;margin-bottom:12px}
+  .done p{max-width:52ch;color:#2A3843}
+  .done .bars{display:flex;gap:3px;height:9px;margin-bottom:24px;max-width:220px}
+  .done .bars i{flex:1;border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="tray">
+  <div class="tray-inner">
+    <div class="strip" id="strip" aria-hidden="true"></div>
+    <span class="tally" id="tally">0/12</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <h1>Les missions tech que je ne peux pas prendre</h1>
+    <p class="lede">Je reçois régulièrement des demandes DevOps, infra et dev qui ne rentrent pas dans mon planning. Plutôt que de les laisser tomber, je les transfère aux bons profils.</p>
+    <p class="meta">Deux minutes à remplir, une seule fois. Tu reçois une mission uniquement quand elle correspond vraiment à ce que tu as indiqué ici.</p>
+  </header>
+
+  <form class="panel" id="form" novalidate>
+
+    <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+      <label for="site_web">Ne remplis pas ce champ</label>
+      <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
+    </div>
+
+    <p class="err" id="err">Il manque quelques réponses obligatoires. Elles sont surlignées ci-dessous.</p>
+
+    <!-- 1 -->
+    <section style="--sec:var(--f1)">
+      <div class="head">
+        <span class="tick"></span>
+        <div><h2>Qui tu es</h2><p>Pour pouvoir te joindre rapidement quand une mission tombe.</p></div>
+      </div>
+      <div class="field row">
+        <div><label class="q" for="prenom">Prénom</label><input type="text" id="prenom" name="prenom" data-req></div>
+        <div><label class="q" for="nom">Nom</label><input type="text" id="nom" name="nom" data-req></div>
+      </div>
+      <div class="field row">
+        <div><label class="q" for="email">Email</label><input type="email" id="email" name="email" placeholder="prenom.nom@mail.com" data-req></div>
+        <div><label class="q" for="tel">Téléphone <span class="opt">— facultatif</span></label><input type="tel" id="tel" name="telephone" placeholder="06 00 00 00 00"></div>
+      </div>
+      <div class="field">
+        <label class="q" for="linkedin">Profil LinkedIn</label>
+        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." data-req>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section style="--sec:var(--f2)">
+      <div class="head">
+        <span class="tick"></span>
+        <div><h2>Ce que tu fais</h2><p>Le plus précis possible : c'est ce qui déclenche la mise en relation.</p></div>
+      </div>
+      <div class="field">
+        <label class="q">Domaine principal</label>
+        <div class="chips" data-req-group="domaine">
+          <input type="radio" name="domaine" id="d1" value="DevOps / Infra"><label for="d1">DevOps / Infra</label>
+          <input type="radio" name="domaine" id="d2" value="Développement"><label for="d2">Développement</label>
+          <input type="radio" name="domaine" id="d3" value="Cloud / SRE"><label for="d3">Cloud / SRE</label>
+          <input type="radio" name="domaine" id="d4" value="Sécurité / Cybersécurité"><label for="d4">Sécurité / Cybersécurité</label>
+          <input type="radio" name="domaine" id="d5" value="Data / IA"><label for="d5">Data / IA</label>
+          <input type="radio" name="domaine" id="d6" value="Autre"><label for="d6">Autre</label>
+        </div>
+      </div>
+      <div class="field" id="domaine-autre-wrap" style="display:none">
+        <label class="q" for="domaine_autre">Précise ton domaine</label>
+        <input type="text" id="domaine_autre" name="domaine_autre" placeholder="Ex. Product management technique">
+      </div>
+      <div class="field">
+        <label class="q" for="metier">Ton métier</label>
+        <select id="metier" name="metier" data-req>
+          <option value="">Choisis dans la liste</option>
+          <option>DevOps Engineer</option>
+          <option>SRE</option>
+          <option>Architecte Cloud</option>
+          <option>Développeur Backend</option>
+          <option>Développeur Frontend</option>
+          <option>Développeur Fullstack</option>
+          <option>Ingénieur Plateforme</option>
+          <option>Ingénieur Sécurité</option>
+          <option>Data Engineer</option>
+          <option>Chef de projet technique</option>
+          <option>Autre — je précise plus bas</option>
+        </select>
+      </div>
+      <div class="field" id="metier-autre-wrap" style="display:none">
+        <label class="q" for="metier_autre">Précise ton métier</label>
+        <input type="text" id="metier_autre" name="metier_autre" placeholder="Ex. Ingénieur QA / Testeur">
+      </div>
+      <div class="field">
+        <label class="q">Expérience sur ce métier</label>
+        <div class="chips" data-req-group="experience">
+          <input type="radio" name="experience" id="x1" value="Moins de 2 ans"><label for="x1">Moins de 2 ans</label>
+          <input type="radio" name="experience" id="x2" value="2 à 5 ans"><label for="x2">2 à 5 ans</label>
+          <input type="radio" name="experience" id="x3" value="5 à 10 ans"><label for="x3">5 à 10 ans</label>
+          <input type="radio" name="experience" id="x4" value="Plus de 10 ans"><label for="x4">Plus de 10 ans</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="q">Outils que tu maîtrises
+          <span class="hint">Plusieurs choix possibles.</span>
+        </label>
+        <div class="chips">
+          <input type="checkbox" name="outils" id="o1" value="Kubernetes"><label for="o1">Kubernetes</label>
+          <input type="checkbox" name="outils" id="o2" value="Docker"><label for="o2">Docker</label>
+          <input type="checkbox" name="outils" id="o3" value="Terraform"><label for="o3">Terraform</label>
+          <input type="checkbox" name="outils" id="o4" value="Ansible"><label for="o4">Ansible</label>
+          <input type="checkbox" name="outils" id="o5" value="AWS"><label for="o5">AWS</label>
+          <input type="checkbox" name="outils" id="o6" value="GCP"><label for="o6">GCP</label>
+          <input type="checkbox" name="outils" id="o7" value="Azure"><label for="o7">Azure</label>
+          <input type="checkbox" name="outils" id="o8" value="CI/CD (GitLab CI, GitHub Actions, Jenkins)"><label for="o8">CI/CD</label>
+          <input type="checkbox" name="outils" id="o9" value="Python"><label for="o9">Python</label>
+          <input type="checkbox" name="outils" id="o10" value="Go"><label for="o10">Go</label>
+          <input type="checkbox" name="outils" id="o11" value="Linux / Systèmes"><label for="o11">Linux / Systèmes</label>
+          <input type="checkbox" name="outils" id="o12" value="Prometheus / Grafana"><label for="o12">Prometheus / Grafana</label>
+          <input type="checkbox" name="outils" id="o13" value="Git avancé"><label for="o13">Git avancé</label>
+          <input type="checkbox" name="outils" id="o14" value="Autres"><label for="o14">Autres</label>
+        </div>
+      </div>
+      <div class="field" id="outils-autre-wrap" style="display:none">
+        <label class="q" for="outils_autre">Précise le ou lesquels</label>
+        <input type="text" id="outils_autre" name="outils_autre" placeholder="Ex. Rust, Pulumi, Datadog">
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section style="--sec:var(--f3)">
+      <div class="head">
+        <span class="tick"></span>
+        <div><h2>Ta disponibilité</h2><p>Je ne te transmets rien qui ne colle pas à ton rythme.</p></div>
+      </div>
+      <div class="field">
+        <label class="q">Statut</label>
+        <div class="chips" data-req-group="statut">
+          <input type="radio" name="statut" id="s1" value="Auto-entrepreneur"><label for="s1">Auto-entrepreneur</label>
+          <input type="radio" name="statut" id="s2" value="EURL / SASU"><label for="s2">EURL / SASU</label>
+          <input type="radio" name="statut" id="s3" value="Portage salarial"><label for="s3">Portage salarial</label>
+          <input type="radio" name="statut" id="s4" value="Société"><label for="s4">Société</label>
+          <input type="radio" name="statut" id="s5" value="En cours de création"><label for="s5">En cours de création</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="q">À partir de quand</label>
+        <div class="chips" data-req-group="dispo">
+          <input type="radio" name="dispo" id="p1" value="Tout de suite"><label for="p1">Tout de suite</label>
+          <input type="radio" name="dispo" id="p2" value="Sous 1 mois"><label for="p2">Sous 1 mois</label>
+          <input type="radio" name="dispo" id="p3" value="Dans 1 à 3 mois"><label for="p3">Dans 1 à 3 mois</label>
+          <input type="radio" name="dispo" id="p4" value="Juste en veille"><label for="p4">Juste en veille</label>
+        </div>
+      </div>
+      <div class="field row">
+        <div>
+          <label class="q" for="tjm">Fourchette de TJM</label>
+          <select id="tjm" name="tjm" data-req>
+            <option value="">Choisis une fourchette</option>
+            <option>Moins de 300 €</option>
+            <option>300 à 400 €</option>
+            <option>400 à 500 €</option>
+            <option>500 à 650 €</option>
+            <option>Plus de 650 €</option>
+            <option>À définir selon la mission</option>
+          </select>
+        </div>
+        <div>
+          <label class="q" for="rythme">Rythme souhaité</label>
+          <select id="rythme" name="rythme" data-req>
+            <option value="">Choisis un rythme</option>
+            <option>Temps plein</option>
+            <option>Temps partiel</option>
+            <option>Missions ponctuelles</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section style="--sec:var(--f4)">
+      <div class="head">
+        <span class="tick"></span>
+        <div><h2>Où tu interviens</h2><p>Le premier filtre que les clients appliquent.</p></div>
+      </div>
+      <div class="field row">
+        <div>
+          <label class="q" for="ville">Ville de rattachement</label>
+          <input type="text" id="ville" name="ville" placeholder="Ex. Cergy (95)" data-req>
+        </div>
+        <div>
+          <label class="q" for="rayon">Jusqu'où tu te déplaces</label>
+          <select id="rayon" name="rayon" data-req>
+            <option value="">Choisis une zone</option>
+            <option>Mon département</option>
+            <option>Ma région</option>
+            <option>France entière</option>
+            <option>France et international</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="q">Format de mission accepté
+          <span class="hint">Plusieurs choix possibles.</span>
+        </label>
+        <div class="chips">
+          <input type="checkbox" name="format" id="f_1" value="Sur site"><label for="f_1">Sur site</label>
+          <input type="checkbox" name="format" id="f_2" value="Hybride"><label for="f_2">Hybride</label>
+          <input type="checkbox" name="format" id="f_3" value="100 % à distance"><label for="f_3">100 % à distance</label>
+          <input type="checkbox" name="format" id="f_4" value="Grands déplacements"><label for="f_4">Grands déplacements</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section style="--sec:var(--f5)">
+      <div class="head">
+        <span class="tick"></span>
+        <div><h2>Pour finir</h2><p>Ce qui me permet de te présenter correctement au client.</p></div>
+      </div>
+      <div class="field">
+        <label class="q" for="cv">Ton CV <span class="opt">— facultatif</span>
+          <span class="hint">Format PDF uniquement, 5 Mo maximum.</span>
+        </label>
+        <input type="file" id="cv" name="cv" accept="application/pdf,.pdf">
+        <span class="hint" id="cv-error" style="display:none;color:var(--f1)"></span>
+      </div>
+      <div class="field">
+        <label class="q" for="pitch">La mission idéale pour toi, en deux lignes</label>
+        <textarea id="pitch" name="pitch" placeholder="Ex. Conduite de travaux FTTH en Île-de-France, plutôt sur des zones denses, avec du pilotage de sous-traitants." data-req></textarea>
+      </div>
+      <div class="field">
+        <label class="consent">
+          <input type="checkbox" name="consentement" value="oui" data-req>
+          <span>J'accepte que ces informations soient conservées pour me proposer des missions, et transmises à un client uniquement après mon accord. Je peux demander leur suppression à tout moment.</span>
+        </label>
+      </div>
+    </section>
+
+    <div class="send">
+      <button type="submit" class="go" id="go">Envoyer mon profil</button>
+      <p id="left">Il reste 12 champs à remplir.</p>
+    </div>
+  </form>
+
+  <div class="panel done" id="done">
+    <div class="bars">
+      <i style="background:var(--f1)"></i><i style="background:var(--f2)"></i><i style="background:var(--f3)"></i>
+      <i style="background:var(--f4)"></i><i style="background:var(--f5)"></i><i style="background:var(--f7)"></i>
+    </div>
+    <h2 id="done-title">C'est enregistré.</h2>
+    <p>Ton profil est dans ma base. Dès qu'une demande correspond à ce que tu as décrit, je t'écris directement — par email ou sur LinkedIn. Inutile de refaire le formulaire, et n'hésite pas à me dire quand ta disponibilité change.</p>
+  </div>
+
+  <footer>
+    <p>Les informations de ce formulaire sont conservées par Mehdi, apporteur d'affaires indépendant, pendant <strong>24 mois</strong> à compter de ta dernière mise à jour, uniquement pour te proposer des missions correspondant à ton profil. Elles ne sont transmises à un client potentiel qu'après ton accord explicite, jamais revendues ni partagées à d'autres fins.</p>
+    <p>Tu peux à tout moment demander à consulter, modifier ou supprimer tes données : un message à <a href="mailto:Mehdi@omalk.com">Mehdi@omalk.com</a> ou sur LinkedIn suffit.</p>
+  </footer>
+</div>
+
+<script>
+// Remplace par l'URL de ton Google Apps Script (ou autre endpoint).
+// Laisse vide pour tester la maquette sans envoi réel.
+const ENDPOINT = "";
+
+const form  = document.getElementById('form');
+const strip = document.getElementById('strip');
+const tally = document.getElementById('tally');
+const left  = document.getElementById('left');
+const err   = document.getElementById('err');
+
+for (let i = 0; i < 12; i++) strip.appendChild(Object.assign(document.createElement('span'), {className:'seg'}));
+const segs = [...strip.children];
+
+// Champs "Autre" à texte libre : requis seulement si l'option correspondante est choisie.
+const conditional = [
+  { triggerName:'domaine', triggerValue:'Autre',  el: document.getElementById('domaine_autre'), wrap: document.getElementById('domaine-autre-wrap') },
+  { triggerName:'metier',  triggerValue:'Autre — je précise plus bas', el: document.getElementById('metier_autre'), wrap: document.getElementById('metier-autre-wrap') },
+  { triggerName:'outils',  triggerValue:'Autres', el: document.getElementById('outils_autre'), wrap: document.getElementById('outils-autre-wrap') },
+];
+
+function isTriggered(name, value){
+  const els = form.querySelectorAll(`[name="${name}"]`);
+  for (const el of els){
+    if (el.type === 'radio' || el.type === 'checkbox'){
+      if (el.checked && el.value === value) return true;
+    } else if (el.value === value){
+      return true;
+    }
+  }
+  return false;
+}
+
+function syncConditionalFields(){
+  conditional.forEach(c => {
+    const active = isTriggered(c.triggerName, c.triggerValue);
+    c.wrap.style.display = active ? 'block' : 'none';
+    if (!active) c.el.value = '';
+  });
+}
+
+const required = [
+  ...form.querySelectorAll('[data-req]')
+].map(el => ({ type:'el', el }))
+ .concat([...form.querySelectorAll('[data-req-group]')].map(g => ({ type:'group', name:g.dataset.reqGroup })))
+ .concat(conditional.map(c => ({ type:'conditional', ...c })));
+
+const filled = item => {
+  if (item.type === 'group') return !!form.querySelector(`[name="${item.name}"]:checked`);
+  if (item.type === 'conditional'){
+    return isTriggered(item.triggerName, item.triggerValue) ? item.el.value.trim() !== '' : true;
+  }
+  return item.el.type === 'checkbox' ? item.el.checked : item.el.value.trim() !== '';
+};
+
+function refresh(){
+  const done  = required.filter(filled).length;
+  const total = required.length;
+  const lit   = Math.round(done / total * 12);
+  segs.forEach((s, i) => s.classList.toggle('on', i < lit));
+  tally.textContent = done + '/' + total;
+  const missing = total - done;
+  left.textContent = missing === 0
+    ? 'Tout est rempli, tu peux envoyer.'
+    : 'Il reste ' + missing + (missing > 1 ? ' champs à remplir.' : ' champ à remplir.');
+}
+
+form.addEventListener('input',  refresh);
+form.addEventListener('change', () => { syncConditionalFields(); refresh(); });
+syncConditionalFields();
+refresh();
+
+// --- Validation du CV à la sélection : PDF uniquement, 5 Mo max
+const cvInput = document.getElementById('cv');
+const cvError = document.getElementById('cv-error');
+const CV_MAX_BYTES = 5 * 1024 * 1024;
+
+cvInput.addEventListener('change', () => {
+  const f = cvInput.files[0];
+  cvError.style.display = 'none';
+  if (!f) return;
+  const isPdf = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+  const tooBig = f.size > CV_MAX_BYTES;
+  if (!isPdf || tooBig){
+    cvError.textContent = !isPdf
+      ? "Ce fichier n'est pas un PDF."
+      : "Le fichier dépasse 5 Mo.";
+    cvError.style.display = 'inline';
+    cvInput.value = '';
+  }
+});
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = () => reject(new Error('Lecture du fichier impossible'));
+    reader.readAsDataURL(file);
+  });
+}
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  form.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+
+  const missing = required.filter(i => !filled(i));
+  if (missing.length){
+    err.classList.add('show');
+    missing.forEach(i => {
+      if ((i.type === 'el' || i.type === 'conditional') && i.el.type !== 'checkbox') i.el.classList.add('invalid');
+    });
+    const first = missing[0];
+    const target = first.type === 'group'
+      ? form.querySelector(`[name="${first.name}"]`).closest('.field')
+      : first.el;
+    target.scrollIntoView({behavior:'smooth', block:'center'});
+    if (first.type === 'el' || first.type === 'conditional') first.el.focus({preventScroll:true});
+    return;
+  }
+  err.classList.remove('show');
+
+  const fd = new FormData(form);
+  const data = {};
+  for (const [k, v] of fd.entries()){
+    if (k === 'cv') continue; // le fichier est traité à part, en base64
+    if (data[k]) data[k] = [].concat(data[k], v); else data[k] = v;
+  }
+  data.date = new Date().toISOString();
+
+  const cvFile = cvInput.files[0];
+  if (cvFile){
+    try {
+      data.cv_nom    = cvFile.name;
+      data.cv_base64 = await fileToBase64(cvFile);
+    } catch {
+      err.textContent = "Le CV n'a pas pu être lu. Réessaie, ou envoie le formulaire sans CV.";
+      err.classList.add('show');
+      return;
+    }
+  }
+
+  const btn = document.getElementById('go');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+
+  try {
+    if (ENDPOINT){
+      await fetch(ENDPOINT, {
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(data)
+      });
+    } else {
+      console.log('Aperçu des données envoyées :', data);
+      await new Promise(r => setTimeout(r, 500));
+    }
+    form.style.display = 'none';
+    document.getElementById('done').classList.add('show');
+    window.scrollTo({top:0, behavior:'smooth'});
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Envoyer mon profil';
+    err.textContent = "L'envoi n'a pas abouti. Vérifie ta connexion et réessaie ; si ça bloque, écris-moi sur LinkedIn.";
+    err.classList.add('show');
+  }
+});
+</script>
+</body>
+</html>
