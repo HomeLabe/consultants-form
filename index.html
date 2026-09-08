@@ -6,22 +6,23 @@
 <title>Rejoindre le réseau de consultants</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#EDF0F2;
+    --paper:#F7F6F2;
     --card:#FFFFFF;
-    --ink:#101B24;
-    --muted:#5C6B77;
-    --line:#DCE1E5;
-    --line-strong:#C3CBD1;
+    --ink:#1A2420;
+    --muted:#5B6B63;
+    --line:#E5E3D8;
+    --line-strong:#CBCBBD;
 
-    /* code couleur fibre optique, 1 à 12 */
-    --f1:#C8352C; --f2:#1D5FBF; --f3:#1E8A4C; --f4:#C29100;
-    --f5:#7A4BAF; --f6:#FFFFFF; --f7:#E0741B; --f8:#8A939A;
-    --f9:#7A5230; --f10:#0E9C9C; --f11:#D6538F; --f12:#1C2126;
+    --accent:#0F6E56;
+    --accent-light:#E1F5EE;
+    --warn:#BA7517;
+    --warn-light:#FAEEDA;
+    --danger:#B23B2E;
+    --danger-light:#FBEDE9;
 
-    --sec:var(--f2);
     --radius:7px;
   }
 
@@ -38,7 +39,7 @@
 
   .wrap{max-width:680px;margin:0 auto;padding:0 18px 72px}
 
-  /* ---------- barre de progression épissure ---------- */
+  /* ---------- barre de progression : capteurs ---------- */
   .tray{
     position:sticky;top:0;z-index:20;
     background:var(--paper);
@@ -46,44 +47,33 @@
     border-bottom:1px solid var(--line);
   }
   .tray-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:14px}
-  .strip{display:flex;gap:3px;flex:1;height:9px}
+  .strip{display:flex;gap:4px;flex:1;height:9px}
   .seg{
     flex:1;border-radius:2px;
-    background:#D9DEE2;
-    box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
-    transition:background .45s ease;
+    background:var(--line-strong);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);
+    transition:background .3s ease;
   }
   @media (prefers-reduced-motion:reduce){.seg{transition:none}}
-  .seg.on{box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-  .seg:nth-child(1).on{background:var(--f1)}
-  .seg:nth-child(2).on{background:var(--f2)}
-  .seg:nth-child(3).on{background:var(--f3)}
-  .seg:nth-child(4).on{background:var(--f4)}
-  .seg:nth-child(5).on{background:var(--f5)}
-  .seg:nth-child(6).on{background:var(--f6)}
-  .seg:nth-child(7).on{background:var(--f7)}
-  .seg:nth-child(8).on{background:var(--f8)}
-  .seg:nth-child(9).on{background:var(--f9)}
-  .seg:nth-child(10).on{background:var(--f10)}
-  .seg:nth-child(11).on{background:var(--f11)}
-  .seg:nth-child(12).on{background:var(--f12)}
+  .seg.on{background:var(--accent)}
   .tally{
-    font-size:13px;color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;font-weight:500;color:var(--muted);
     font-variant-numeric:tabular-nums;white-space:nowrap;
   }
 
   /* ---------- accroche ---------- */
   header{padding:44px 0 30px}
   h1{
-    font-family:Archivo,sans-serif;
+    font-family:"Space Grotesk",sans-serif;
     font-weight:700;
     font-size:clamp(30px,6.4vw,44px);
     line-height:1.06;
-    letter-spacing:-.022em;
+    letter-spacing:-.018em;
     margin:0 0 18px;
     max-width:14ch;
   }
-  .lede{margin:0 0 14px;font-size:17px;max-width:56ch;color:#2A3843}
+  .lede{margin:0 0 14px;font-size:17px;max-width:56ch;color:#2A3833}
   .meta{margin:0;font-size:14px;color:var(--muted)}
 
   /* ---------- panneau ---------- */
@@ -96,11 +86,17 @@
   section:first-of-type{border-top:0}
   @media (max-width:520px){section{padding:22px 16px 26px}}
 
-  .head{display:flex;align-items:baseline;gap:11px;margin-bottom:20px}
-  .tick{width:7px;height:22px;border-radius:2px;background:var(--sec);flex:none;transform:translateY(3px)}
+  .head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .dot{
+    width:9px;height:9px;border-radius:50%;flex:none;
+    background:var(--line-strong);
+    box-shadow:0 0 0 3px var(--paper);
+    transition:background .3s ease;
+  }
+  .dot.on{background:var(--accent)}
   h2{
-    font-family:Archivo,sans-serif;font-weight:600;
-    font-size:20px;letter-spacing:-.012em;margin:0;
+    font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:20px;letter-spacing:-.01em;margin:0;
   }
   .head p{margin:2px 0 0;font-size:14px;color:var(--muted)}
 
@@ -116,78 +112,81 @@
   input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{
     width:100%;
     font:inherit;font-size:15.5px;color:var(--ink);
-    background:#FBFCFC;
+    background:#FBFBF9;
     border:1px solid var(--line-strong);
     border-radius:5px;
     padding:11px 12px;
     transition:border-color .12s,box-shadow .12s,background .12s;
   }
   textarea{resize:vertical;min-height:88px;line-height:1.5}
-  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235C6B77' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235B6B63' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
   input:focus,select:focus,textarea:focus{
     outline:none;background:#fff;
-    border-color:var(--sec);
-    box-shadow:0 0 0 3px color-mix(in srgb,var(--sec) 22%,transparent);
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent);
   }
-  input::placeholder,textarea::placeholder{color:#9AA6AE}
+  input::placeholder,textarea::placeholder{color:#9CA69D}
 
-  /* ---------- pastilles de choix ---------- */
+  /* ---------- tags de choix ---------- */
   .chips{display:flex;flex-wrap:wrap;gap:7px}
   .chips input{position:absolute;opacity:0;width:0;height:0}
   .chips label{
     display:inline-block;
-    padding:8px 13px;
-    font-size:14.5px;
+    font-family:"IBM Plex Mono",monospace;
+    padding:7px 12px;
+    font-size:13.5px;
     border:1px solid var(--line-strong);
-    border-radius:100px;
-    background:#FBFCFC;
+    border-radius:5px;
+    background:#FBFBF9;
     cursor:pointer;
     user-select:none;
     transition:background .12s,border-color .12s,color .12s;
   }
-  .chips label:hover{border-color:var(--sec)}
+  .chips label:hover{border-color:var(--accent)}
   .chips input:checked + label{
-    background:var(--sec);border-color:var(--sec);color:#fff;font-weight:500;
+    background:var(--accent-light);border-color:var(--accent);color:var(--accent);font-weight:600;
   }
-  .chips input:focus-visible + label{box-shadow:0 0 0 3px color-mix(in srgb,var(--sec) 30%,transparent)}
+  .chips input:focus-visible + label{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 
   /* ---------- consentement ---------- */
-  .consent{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:#2A3843;line-height:1.45}
-  .consent input{margin:2px 0 0;width:17px;height:17px;flex:none;accent-color:var(--sec)}
+  .consent{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:#2A3833;line-height:1.45}
+  .consent input{margin:2px 0 0;width:17px;height:17px;flex:none;accent-color:var(--accent)}
 
   /* ---------- envoi ---------- */
-  .send{padding:24px;border-top:1px solid var(--line);background:#F8FAFB;border-radius:0 0 var(--radius) var(--radius)}
+  .send{padding:24px;border-top:1px solid var(--line);background:#F2F1EA;border-radius:0 0 var(--radius) var(--radius)}
   button.go{
-    width:100%;font-family:Archivo,sans-serif;font-size:16.5px;font-weight:600;
-    color:#fff;background:var(--ink);
+    width:100%;font-family:"Space Grotesk",sans-serif;font-size:16.5px;font-weight:600;
+    color:#fff;background:var(--accent);
     border:0;border-radius:5px;padding:15px;cursor:pointer;
     transition:background .14s;
   }
-  button.go:hover{background:#1F3241}
-  button.go:focus-visible{outline:3px solid #1D5FBF;outline-offset:2px}
-  button.go[disabled]{background:#A6B0B8;cursor:not-allowed}
+  button.go:hover{background:#0C5744}
+  button.go:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  button.go[disabled]{background:#A9AFA8;cursor:not-allowed}
   .send p{margin:11px 0 0;font-size:13px;color:var(--muted);text-align:center}
 
   .err{
     display:none;margin:0 0 16px;padding:11px 13px;
-    border-left:3px solid var(--f1);background:#FDF2F1;
+    border-left:3px solid var(--danger);background:var(--danger-light);
     font-size:14px;border-radius:0 4px 4px 0;
   }
   .err.show{display:block}
-  .invalid{border-color:var(--f1) !important;background:#FEF8F7}
+  .invalid{border-color:var(--danger) !important;background:var(--danger-light)}
 
   footer{margin-top:22px;font-size:13px;color:var(--muted);line-height:1.5}
+  footer a{color:var(--accent)}
 
   /* ---------- confirmation ---------- */
   .done{display:none;padding:52px 26px;text-align:left}
   .done.show{display:block}
-  .done h2{font-size:26px;margin-bottom:12px}
-  .done p{max-width:52ch;color:#2A3843}
-  .done .bars{display:flex;gap:3px;height:9px;margin-bottom:24px;max-width:220px}
-  .done .bars i{flex:1;border-radius:2px}
+  .done h2{font-family:"Space Grotesk",sans-serif;font-size:26px;margin-bottom:12px}
+  .done p{max-width:52ch;color:#2A3833}
+  .done .bars{display:flex;gap:4px;height:9px;margin-bottom:24px;max-width:220px}
+  .done .bars i{flex:1;border-radius:2px;background:var(--accent);font-style:normal}
 </style>
 </head>
 <body>
+
 
 <div class="tray">
   <div class="tray-inner">
@@ -199,7 +198,7 @@
 <div class="wrap">
 
   <header>
-    <h1>Les missions que je ne peux pas prendre</h1>
+    <h1>Les missions tech que je ne peux pas prendre</h1>
     <p class="lede">Je reçois régulièrement des demandes DevOps, infra et dev qui ne rentrent pas dans mon planning. Plutôt que de les laisser tomber, je les transfère aux bons profils.</p>
     <p class="meta">Deux minutes à remplir, une seule fois. Tu reçois une mission uniquement quand elle correspond vraiment à ce que tu as indiqué ici.</p>
   </header>
@@ -210,13 +209,14 @@
       <label for="site_web">Ne remplis pas ce champ</label>
       <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
     </div>
+    <input type="hidden" name="jeton" value="kc-form-2026">
 
     <p class="err" id="err">Il manque quelques réponses obligatoires. Elles sont surlignées ci-dessous.</p>
 
     <!-- 1 -->
-    <section style="--sec:var(--f1)">
+    <section>
       <div class="head">
-        <span class="tick"></span>
+        <span class="dot"></span>
         <div><h2>Qui tu es</h2><p>Pour pouvoir te joindre rapidement quand une mission tombe.</p></div>
       </div>
       <div class="field row">
@@ -225,7 +225,7 @@
       </div>
       <div class="field row">
         <div><label class="q" for="email">Email</label><input type="email" id="email" name="email" placeholder="prenom.nom@mail.com" data-req></div>
-        <div><label class="q" for="tel">Téléphone <span class="opt">— facultatif</span></label><input type="tel" id="tel" name="telephone" placeholder="06 00 00 00 00"></div>
+        <div><label class="q" for="tel">Téléphone</label><input type="tel" id="tel" name="telephone" placeholder="06 00 00 00 00" data-req></div>
       </div>
       <div class="field">
         <label class="q" for="linkedin">Profil LinkedIn</label>
@@ -234,9 +234,9 @@
     </section>
 
     <!-- 2 -->
-    <section style="--sec:var(--f2)">
+    <section>
       <div class="head">
-        <span class="tick"></span>
+        <span class="dot"></span>
         <div><h2>Ce que tu fais</h2><p>Le plus précis possible : c'est ce qui déclenche la mise en relation.</p></div>
       </div>
       <div class="field">
@@ -312,9 +312,9 @@
     </section>
 
     <!-- 3 -->
-    <section style="--sec:var(--f3)">
+    <section>
       <div class="head">
-        <span class="tick"></span>
+        <span class="dot"></span>
         <div><h2>Ta disponibilité</h2><p>Je ne te transmets rien qui ne colle pas à ton rythme.</p></div>
       </div>
       <div class="field">
@@ -362,9 +362,9 @@
     </section>
 
     <!-- 4 -->
-    <section style="--sec:var(--f4)">
+    <section>
       <div class="head">
-        <span class="tick"></span>
+        <span class="dot"></span>
         <div><h2>Où tu interviens</h2><p>Le premier filtre que les clients appliquent.</p></div>
       </div>
       <div class="field row">
@@ -397,17 +397,17 @@
     </section>
 
     <!-- 5 -->
-    <section style="--sec:var(--f5)">
+    <section>
       <div class="head">
-        <span class="tick"></span>
+        <span class="dot"></span>
         <div><h2>Pour finir</h2><p>Ce qui me permet de te présenter correctement au client.</p></div>
       </div>
       <div class="field">
-        <label class="q" for="cv">Ton CV <span class="opt">— facultatif</span>
+        <label class="q" for="cv">Ton CV
           <span class="hint">Format PDF uniquement, 5 Mo maximum.</span>
         </label>
-        <input type="file" id="cv" name="cv" accept="application/pdf,.pdf">
-        <span class="hint" id="cv-error" style="display:none;color:var(--f1)"></span>
+        <input type="file" id="cv" name="cv" accept="application/pdf,.pdf" data-req>
+        <span class="hint" id="cv-error" style="display:none;color:var(--danger)"></span>
       </div>
       <div class="field">
         <label class="q" for="pitch">La mission idéale pour toi, en deux lignes</label>
@@ -429,8 +429,7 @@
 
   <div class="panel done" id="done">
     <div class="bars">
-      <i style="background:var(--f1)"></i><i style="background:var(--f2)"></i><i style="background:var(--f3)"></i>
-      <i style="background:var(--f4)"></i><i style="background:var(--f5)"></i><i style="background:var(--f7)"></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i>
     </div>
     <h2 id="done-title">C'est enregistré.</h2>
     <p>Ton profil est dans ma base. Dès qu'une demande correspond à ce que tu as décrit, je t'écris directement — par email ou sur LinkedIn. Inutile de refaire le formulaire, et n'hésite pas à me dire quand ta disponibilité change.</p>
@@ -486,8 +485,18 @@ function syncConditionalFields(){
 const required = [
   ...form.querySelectorAll('[data-req]')
 ].map(el => ({ type:'el', el }))
- .concat([...form.querySelectorAll('[data-req-group]')].map(g => ({ type:'group', name:g.dataset.reqGroup })))
+ .concat([...form.querySelectorAll('[data-req-group]')].map(g => ({ type:'group', name:g.dataset.reqGroup, groupEl:g })))
  .concat(conditional.map(c => ({ type:'conditional', ...c })));
+
+required.forEach(item => {
+  const anchor = item.type === 'group' ? item.groupEl : (item.el || item.wrap);
+  item.section = anchor.closest('section');
+});
+const sections = [...form.querySelectorAll('section')].map(section => ({
+  section,
+  dot: section.querySelector('.dot'),
+  items: required.filter(i => i.section === section)
+}));
 
 const filled = item => {
   if (item.type === 'group') return !!form.querySelector(`[name="${item.name}"]:checked`);
@@ -503,6 +512,11 @@ function refresh(){
   const lit   = Math.round(done / total * 12);
   segs.forEach((s, i) => s.classList.toggle('on', i < lit));
   tally.textContent = done + '/' + total;
+  sections.forEach(s => {
+    if (!s.dot) return;
+    const complete = s.items.length === 0 || s.items.every(filled);
+    s.dot.classList.toggle('on', complete);
+  });
   const missing = total - done;
   left.textContent = missing === 0
     ? 'Tout est rempli, tu peux envoyer.'
